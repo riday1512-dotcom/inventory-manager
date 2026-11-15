@@ -64,3 +64,8 @@ Data is saved to `data/products.csv`, which is created automatically.
 ## Next steps
 - Move storage from CSV to MySQL using JDBC
 - Rebuild as a REST API with Spring Boot
+
+## How I built this
+I used Claude as a mentor while learning: for explanations, project planning,
+and code review. I wrote, tested, and debugged the code myself, including
+fixing setup and compiler errors along the way.
