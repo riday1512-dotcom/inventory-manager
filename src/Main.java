@@ -30,6 +30,7 @@ public class Main {
                     case 6 -> deleteProduct();
                     case 7 -> showLowStock();
                     case 8 -> showTotalValue();
+                    case 9 -> restockProduct();
                     case 0 -> running = false;
                     default -> System.out.println("Invalid choice. Try again.");
                 }
@@ -52,6 +53,7 @@ public class Main {
         System.out.println("6. Delete product");
         System.out.println("7. Low-stock report");
         System.out.println("8. Total inventory value");
+        System.out.println("9. restock");
         System.out.println("0. Exit");
     }
 
@@ -64,7 +66,13 @@ public class Main {
         service.addProduct(new Product(id, name, category, price, quantity));
         System.out.println("Product added.");
     }
-
+        private static void restockProduct() {
+        int id = readInt("Product id: ");
+        int quantity = readInt("Quantity to add: ");
+        service.restockProduct(id, quantity);
+        System.out.println("Stock updated.");
+    }
+    
     private static void searchByName() {
         String keyword = readText("Search keyword: ");
         printProducts(service.searchByName(keyword));

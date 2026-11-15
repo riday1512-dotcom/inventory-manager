@@ -95,4 +95,12 @@ public class InventoryService {
                 .mapToDouble(p -> p.getPrice() * p.getQuantity())
                 .sum();
     }
+    public void restockProduct(int id, int quantity){
+        if (quantity <=0){
+            throw new IllegalArgumentException("Restock quantity must be positive");
+        }
+        Product product = getProduct(id);
+        product.setQuantity(product.getQuantity() + quantity);
+        save();
+    }
 }
