@@ -3,6 +3,7 @@ package service;
 import exception.OutOfStockException;
 import exception.ProductNotFoundException;
 import model.Product;
+import storage.FileStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,12 +13,25 @@ import java.util.stream.Collectors;
 
 public class InventoryService {
     private final Map<Integer, Product> products = new HashMap<>();
+    private final FileStorage storage;
+
+    public InventoryService(FileStorage storage) {
+        this.storage = storage;
+        for (Product p : storage.load()) {
+            products.put(p.getId(), p);
+        }
+    }
+
+    private void save() {
+        storage.save(new ArrayList<>(products.values()));
+    }
 
     public void addProduct(Product product) {
         if (products.containsKey(product.getId())) {
             throw new IllegalArgumentException("Product with id " + product.getId() + " already exists");
         }
         products.put(product.getId(), product);
+        save();
     }
 
     public Product getProduct(int id) {
@@ -37,6 +51,7 @@ public class InventoryService {
             throw new ProductNotFoundException(id);
         }
         products.remove(id);
+        save();
     }
 
     public List<Product> searchByName(String keyword) {
@@ -60,11 +75,13 @@ public class InventoryService {
             throw new OutOfStockException(product.getName(), product.getQuantity());
         }
         product.setQuantity(product.getQuantity() - quantity);
+        save();
     }
 
     public void updatePrice(int id, double newPrice) {
         Product product = getProduct(id);
         product.setPrice(newPrice);
+        save();
     }
 
     public List<Product> getLowStockProducts(int threshold) {
@@ -72,9 +89,10 @@ public class InventoryService {
                 .filter(p -> p.getQuantity() < threshold)
                 .collect(Collectors.toList());
     }
+
     public double getTotalInventoryValue() {
-    return products.values().stream()
-            .mapToDouble(p -> p.getPrice() * p.getQuantity())
-            .sum();
-}
+        return products.values().stream()
+                .mapToDouble(p -> p.getPrice() * p.getQuantity())
+                .sum();
+    }
 }

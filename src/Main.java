@@ -2,13 +2,15 @@ import exception.OutOfStockException;
 import exception.ProductNotFoundException;
 import model.Product;
 import service.InventoryService;
+import storage.FileStorage;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final InventoryService service = new InventoryService();
+   private static final InventoryService service =
+        new InventoryService(new FileStorage("data/products.csv"));
 
     public static void main(String[] args) {
         boolean running = true;
