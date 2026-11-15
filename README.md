@@ -5,8 +5,13 @@ notebook stock tracking. Add products, record sales, search stock, and get
 low-stock alerts, with data saved automatically between runs.
 
 ## Why I built this
-[2-3 sentences in your own words: who has this problem, what it looks like
-today, why you chose it.]
+Many small shops still track stock in notebooks or from memory. That makes it
+easy to miss that an item is running low, to lose track of what sold, and to
+guess at how much stock is worth. I built this console application as a simple
+replacement: it records products and sales, blocks sales that exceed the
+available stock, and shows low-stock items at a glance. I chose this problem
+because it let me practice Java fundamentals on something with real rules,
+like validation, error handling, and saving data.
 
 ## Features
 - Add, view, search, update, and delete products
