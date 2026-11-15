@@ -3,7 +3,7 @@ package service;
 import exception.OutOfStockException;
 import exception.ProductNotFoundException;
 import model.Product;
-import storage.FileStorage;
+import storage.ProductStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,16 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class InventoryService {
-    private final Map<Integer, Product> products = new HashMap<>();
-    private final FileStorage storage;
+private final ProductStorage storage;
 
-    public InventoryService(FileStorage storage) {
-        this.storage = storage;
-        for (Product p : storage.load()) {
-            products.put(p.getId(), p);
-        }
+public InventoryService(ProductStorage storage) {
+    this.storage = storage;
+    for (Product p : storage.load()) {
+        products.put(p.getId(), p);
     }
+}
 
     private void save() {
         storage.save(new ArrayList<>(products.values()));

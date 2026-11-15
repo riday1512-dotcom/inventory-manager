@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileStorage {
+public class FileStorage implements ProductStorage {
     private final Path filePath;
 
     public FileStorage(String fileName) {
