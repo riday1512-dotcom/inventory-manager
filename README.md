@@ -74,3 +74,22 @@ Data is saved to `data/products.csv`, which is created automatically.
 I used Claude as a mentor while learning: for explanations, project planning,
 and code review. I wrote, tested, and debugged the code myself, including
 fixing setup and compiler errors along the way.
+## Running the MySQL version
+1. Install MySQL and run `schema.sql` to create the database and table.
+2. Download the MySQL Connector/J jar and place it in a `lib/` folder.
+3. Set your database password as an environment variable (PowerShell):
+   ```
+   $env:DB_PASSWORD = "your_password"
+   ```
+4. Compile and run:
+   ```
+   javac -d out -cp "lib/*" -sourcepath src src/Main.java
+   java -cp "out;lib/*" Main
+   ```
+
+## Design upgrade
+`InventoryService` depends on a `ProductStorage` interface, so storage moved
+from a CSV file to MySQL without changing the business logic. The database
+layer uses `PreparedStatement` (protection against SQL injection) and
+transactions (all changes succeed together or are rolled back). The password
+is read from an environment variable and never stored in the code.
