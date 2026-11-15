@@ -2,15 +2,16 @@ import exception.OutOfStockException;
 import exception.ProductNotFoundException;
 import model.Product;
 import service.InventoryService;
-import storage.FileStorage;
+import storage.DatabaseStorage;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
-   private static final InventoryService service =
-        new InventoryService(new FileStorage("data/products.csv"));
+    private static final InventoryService service = new InventoryService(
+            new DatabaseStorage("jdbc:mysql://localhost:3306/inventory_db",
+                    "root", System.getenv("DB_PASSWORD")));
 
     public static void main(String[] args) {
         boolean running = true;
@@ -94,6 +95,11 @@ public class Main {
         printProducts(service.getLowStockProducts(threshold));
     }
 
+    private static void showTotalValue() {
+        double total = service.getTotalInventoryValue();
+        System.out.println("Total inventory value: Rs." + total);
+    }
+
     private static void printProducts(List<Product> products) {
         if (products.isEmpty()) {
             System.out.println("No products found.");
@@ -102,11 +108,6 @@ public class Main {
         for (Product p : products) {
             System.out.println(p);
         }
-    }
-
-    private static void showTotalValue() {
-    double total = service.getTotalInventoryValue();
-    System.out.println("Total inventory value: Rs." + total);
     }
 
     // ---------- Input helpers ----------

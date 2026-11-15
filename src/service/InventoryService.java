@@ -11,14 +11,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-private final ProductStorage storage;
+public class InventoryService {
+    private final Map<Integer, Product> products = new HashMap<>();
+    private final ProductStorage storage;
 
-public InventoryService(ProductStorage storage) {
-    this.storage = storage;
-    for (Product p : storage.load()) {
-        products.put(p.getId(), p);
+    public InventoryService(ProductStorage storage) {
+        this.storage = storage;
+        for (Product p : storage.load()) {
+            products.put(p.getId(), p);
+        }
     }
-}
 
     private void save() {
         storage.save(new ArrayList<>(products.values()));
