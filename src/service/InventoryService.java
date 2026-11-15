@@ -72,4 +72,9 @@ public class InventoryService {
                 .filter(p -> p.getQuantity() < threshold)
                 .collect(Collectors.toList());
     }
+    public double getTotalInventoryValue() {
+    return products.values().stream()
+            .mapToDouble(p -> p.getPrice() * p.getQuantity())
+            .sum();
+}
 }
